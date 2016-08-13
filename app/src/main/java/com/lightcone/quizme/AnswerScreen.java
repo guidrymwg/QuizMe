@@ -18,7 +18,7 @@ public class AnswerScreen extends Activity {
     private TextView tv2;
     private TextView tv3;
     private TextView tv4;
-    private int numberRight;
+    private static int numberRight;
     private int numberWrong;
     private int score;
 

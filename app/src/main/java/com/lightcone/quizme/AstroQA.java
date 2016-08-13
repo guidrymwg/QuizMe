@@ -1,5 +1,6 @@
 package com.lightcone.quizme;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,17 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 
 /**
@@ -35,19 +47,42 @@ public class AstroQA extends AppCompatActivity {
     protected static int selectedButton = -1;
     protected static String answerArray[] = {"A", "B", "C", "D", "E"};
     private Button submitButton;
-    protected static int numberRight = 0;
-    protected static int numberWrong = 0;
     private int numberQuestions = 0;
-    protected static float score = 0;
     protected static boolean isCorrect;
     protected static int correctIndex = -1;
-    protected static SharedPreferences prefs;
     private ProgressBar progressBar;
+    private Context context;
+
+    // Logic in Settings (Preferences) menu
+    private boolean onSplash = true;
+    private boolean speakQuestions;
+    private boolean expertMode;
+    private boolean onAnswerPage = false;
+    private boolean hasAmplification = false;
+    private boolean isRetrieving = false;
+
+    // Scoring
+    public static int numberRight = 0;
+    public static int numberWrong = 0;
+    public static int numberScored = 0;
+    public static float score = 0;
+    private static int qnumber = -1;
+
+    // Shared preferences
+    public static  SharedPreferences prefs;
+    private SharedPreferences.Editor edit;
+
+    private boolean randomizeOrder = false;
+
+    // JSON aray to hold questions as JSON objects once read in from data file
+    private JSONArray arrayJSON;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.astroqa);
+
+        context = getApplicationContext();
 
         // Set up a TextView to hold the question
         questionView = (TextView)findViewById(R.id.TextView01);
@@ -70,20 +105,23 @@ public class AstroQA extends AppCompatActivity {
         submitButton.setOnClickListener(event_listener);
         submitButton.setVisibility(View.INVISIBLE);
 
-        // Set up a SharedPreferences to store scores so they will persist. Variable prefs
-        // is protected static, so it can be accessed from other classes in this package.
+        // Execute the data load from raw/datafile on a background thread
+        if(!isRetrieving) new BackgroundLoad().execute();
+        isRetrieving = true;
+
+        // Set up a SharedPreferences to store scores and preferences so they will
+        // persist and a shared preferences editor to change these values.
 
         prefs = this.getApplicationContext().getSharedPreferences("prefs", 0);
+        edit = prefs.edit();
 
-        // Set up the name-value data pairs that will be transmitted as part of the POST request
-        // as elements of a Bundle.
-
-        postData = new Bundle();
-        postData.putString("chapter", chapter);
-
-        // Execute the POST request on a background thread
-        progressBar = (ProgressBar) findViewById(R.id.qa_bar);
-        new BackgroundLoad().execute(host_url);
+        numberRight = prefs.getInt("numberRight",0);
+        numberWrong = prefs.getInt("numberWrong", 0);
+        numberScored = prefs.getInt("numberQuestions", 0);
+        score = prefs.getFloat("score", 0);
+        speakQuestions = prefs.getBoolean("speakQuestions", true);
+        expertMode = prefs.getBoolean("expertMode", false);
+        qnumber = prefs.getInt("qnumber", -1);
 
     }
 
@@ -170,6 +208,198 @@ public class AstroQA extends AppCompatActivity {
         // Define an Intent to launch an answer screen
         Intent i = new Intent(this, AnswerScreen.class);
         startActivity(i);
+    }
+
+    /**************************************************************
+     The following methods do the data access and processing
+     of the string that is returned from the file in the raw directory. Done on
+     background thread to avoid locking up the main UI thread.
+     ***************************************************************/
+
+    // Use AsyncTask to perform the data load on a background thread.  The three
+    // argument types inside the < > are a type for the input parameters (Void in this case, since
+    // there are no input parameters), a type for any published progress during the background
+    // task (Void in this case,  because we aren't going to publish progress since the task should
+    // be very short), and a type for the object returned from the background task (in this case it
+    // is type String).
+
+    private class BackgroundLoad extends AsyncTask <Void, Void, String>{
+
+        // Executes the task on a background thread
+        @Override
+        protected String doInBackground(Void... params) {
+
+            // The notation Void... params means that there are no input parameters.
+            // In new BackgroundLoad().execute() above no parameter arguments
+            // are passed.
+
+            return readQuestionsResource(context);
+        }
+
+        // Executes before the thread run by doInBackground
+        protected void onPreExecute () {
+
+        }
+
+        // Executes after the thread run by doInBackground has returned. The variable s
+        // passed is the string value returned by doInBackground.
+
+        @Override
+        protected void onPostExecute(String s){
+            // Parse the returned string
+            parseQuizData(s);
+        }
+    }
+
+    /**
+     * Reads the text from res/raw/questions.json and returns it as a string. Adapted
+     * from Glass GDK Compass example.
+     */
+
+    private static String readQuestionsResource(Context context) {
+        InputStream is = context.getResources().openRawResource(R.raw.questions);
+        StringBuffer buffer = new StringBuffer();
+
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line);
+                buffer.append('\n');
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Could not read questions resource", e);
+            return null;
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    Log.e(TAG, "Could not close questions resource stream", e);
+                }
+            }
+        }
+        return buffer.toString();
+    }
+
+    // Method to parse data read in from the data file
+
+    private  void parseQuizData (String s){
+
+        Log.i(TAG,"\nRaw string:\n"+s);
+        try {
+            parseJSON(s);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // JSON parser.
+
+    public void parseJSON (String resp) throws IllegalStateException,
+            IOException, JSONException, NoSuchAlgorithmException {
+
+        JSONObject response = new JSONObject(resp).getJSONObject("responseData");
+        arrayJSON = response.getJSONArray("questions");
+        numberQuestions = arrayJSON.length();
+
+        // Test random number generator
+        //  testRandom(120000);
+
+        isRetrieving = false;
+    }
+
+    // Method to extract a question from the JSON array of question objects and
+    // display it as cards.  Called by tap on trackpad.
+
+    private void displayQuestion(){
+
+        // Decide whether to present questions in sequence or randomly
+        if(randomizeOrder){
+            qnumber = randomQuestion(numberQuestions);
+        } else {
+            if(qnumber < numberQuestions-1){
+                qnumber++;
+            } else {
+                qnumber = 0;
+            }
+        }
+
+        Log.i(TAG,"numberQuestions="+numberQuestions+" currentQuestion="+qnumber);
+
+        // Extract the question and assign data to variables
+        try {
+            question= capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("q"));
+            answer[0] = arrayJSON.getJSONObject(qnumber).getString("a");
+            answer[1] = arrayJSON.getJSONObject(qnumber).getString("b");
+            answer[2] = arrayJSON.getJSONObject(qnumber).getString("c");
+            answer[3] = arrayJSON.getJSONObject(qnumber).getString("d");
+            answer[4] = arrayJSON.getJSONObject(qnumber).getString("e");
+            coran = capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("coran"));
+            amplification = capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("amp"));
+        } catch (JSONException e1) {
+            e1.printStackTrace();
+        }
+
+        Log.i(TAG,"\ndisplayQuestion() : q="+question);
+        Log.i(TAG,"a1="+answer[0]);
+        Log.i(TAG,"a2="+answer[1]);
+        Log.i(TAG,"a3="+answer[2]);
+        Log.i(TAG,"a4="+answer[3]);
+        Log.i(TAG,"a5="+answer[4]);
+        Log.i(TAG,"coran="+coran);
+        Log.i(TAG,"amp="+amplification);
+
+        if(amplification.length() > 0){
+            hasAmplification = true;
+        } else {
+            hasAmplification = false;
+        }
+
+        // Assign  an integer index 0-4 to the correct answer corresponding to the letter A-E
+        // for later convenience.
+
+        if(coran.equalsIgnoreCase("A")){
+            correctIndex = 0;
+        } else if (coran.equalsIgnoreCase("B")){
+            correctIndex = 1;
+        } else if (coran.equalsIgnoreCase("C")){
+            correctIndex = 2;
+        } else if (coran.equalsIgnoreCase("D")){
+            correctIndex = 3;
+        } else if (coran.equalsIgnoreCase("E")){
+            correctIndex = 4;
+        }
+
+    }
+
+    // Method to choose random integer representing question number
+    // and return as int. Generally,
+    //      int random = (min.value ) + (int)(Math.random()* ( Max - Min + 1));
+    // will return random number between Min and Max, inclusive.  Thus, to return
+    // a random number between 0 and qnum-1, where qnum is the number of questions,
+    //      int random = 0 +  (int)(Math.random()*(qnum));
+    // should do the job.
+
+    private int randomQuestion(int qnum){
+        int ch = (int)(Math.random()*(qnum));
+        return ch;
+    }
+
+    // Utility to set the first letter of a string to upper case
+
+    public String capFirstLetter(String string){
+        int len = string.length();
+        if(len<1) return string;
+        String sub1 = string.substring(0,1);
+        String sub2 = string.substring(1,len);
+        return sub1.toUpperCase(Locale.US)+sub2;
     }
 
 
