@@ -279,6 +279,7 @@ public class AstroQA extends AppCompatActivity {
                 }
             }
         }
+        Log.i(TAG, "string"+buffer.toString());
         return buffer.toString();
     }
 
