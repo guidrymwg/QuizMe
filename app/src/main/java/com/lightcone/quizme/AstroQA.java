@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 
 /**
@@ -32,7 +33,7 @@ import java.util.Locale;
  */
 public class AstroQA extends AppCompatActivity {
 
-    public static final String TAG = "WEBSTREAM";
+    public static final String TAG = "QUIZME";
 
     // Questioner data holders
     private String qnum;
@@ -106,6 +107,7 @@ public class AstroQA extends AppCompatActivity {
         submitButton.setVisibility(View.INVISIBLE);
 
         // Execute the data load from raw/datafile on a background thread
+        progressBar = (ProgressBar) findViewById(R.id.qa_bar);
         if(!isRetrieving) new BackgroundLoad().execute();
         isRetrieving = true;
 
@@ -247,7 +249,25 @@ public class AstroQA extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s){
             // Parse the returned string
+            //parseQuizData(s);
+            // Stop the progress bar
+            progressBar.setVisibility(View.GONE);
+
+            // Parse the returned string
+           // postParse(s);
+
             parseQuizData(s);
+
+            //postParse();
+
+            // Make buttons visible
+			submitButton.setVisibility(View.VISIBLE);
+			for(int i=0; i<5; i++){
+				answerButton[i].setVisibility(View.VISIBLE);
+			}
+
+            displayQuestion();
+
         }
     }
 
@@ -309,6 +329,8 @@ public class AstroQA extends AppCompatActivity {
         JSONObject response = new JSONObject(resp).getJSONObject("responseData");
         arrayJSON = response.getJSONArray("questions");
         numberQuestions = arrayJSON.length();
+
+        Log.i(TAG,"numberQuestions="+numberQuestions);
 
         // Test random number generator
         //  testRandom(120000);
@@ -377,7 +399,12 @@ public class AstroQA extends AppCompatActivity {
         } else if (coran.equalsIgnoreCase("E")){
             correctIndex = 4;
         }
-
+        questionView.setText(question);
+        answerButton[0].setText(answer[0]);
+        answerButton[1].setText(answer[1]);
+        answerButton[2].setText(answer[2]);
+        answerButton[3].setText(answer[3]);
+        answerButton[4].setText(answer[4]);
     }
 
     // Method to choose random integer representing question number
@@ -401,6 +428,54 @@ public class AstroQA extends AppCompatActivity {
         String sub1 = string.substring(0,1);
         String sub2 = string.substring(1,len);
         return sub1.toUpperCase(Locale.US)+sub2;
+    }
+
+    // To process the string returned
+    private void postParse(String s){
+        Log.i(TAG,"postParse: "+s);
+        StringTokenizer st = new StringTokenizer(s,"\n");
+        String ts;
+        Log.i(TAG,"\nFrom Tokenizer:\n");
+        qnum = st.nextToken();
+
+        qnum = qnum.substring(qnum.indexOf("=")+1).trim();
+        Log.i(TAG,"qnum="+qnum);
+        int iqnum = Integer.parseInt(qnum);
+        question = st.nextToken();
+        question = question.substring(question.indexOf("=")+1).trim();
+        Log.i(TAG, "qnum="+iqnum);
+        Log.i(TAG, "question="+question);
+        for(int i=0; i<5; i++){
+            ts = st.nextToken();
+            answer[i] = answerArray[i]+".  "+ts.substring(ts.indexOf("=")+1).trim();
+            Log.i(TAG, "Answer["+i+"]: "+ answer[i]);
+            answerButton[i].setText(" "+answer[i]);
+        }
+        chapter = st.nextToken();
+        chapter = chapter.substring(chapter.indexOf("=")+1).trim();
+        Log.i(TAG, "chapter="+chapter);
+        coran = st.nextToken();
+        coran = coran.substring(coran.indexOf("=")+1).trim();
+        Log.i(TAG,"coran="+coran);
+        amplification = st.nextToken();
+        amplification = amplification.substring(amplification.indexOf("=")+1).trim();
+        Log.i(TAG,"amplification="+amplification);
+        questionView.append("\n"+question);
+
+        // Assign  an integer index 0-4 to the correct answer that can be compared with
+        // the integer index selectedButton for the answer chosen
+
+        if(coran.equalsIgnoreCase("A")){
+            correctIndex = 0;
+        } else if (coran.equalsIgnoreCase("B")){
+            correctIndex = 1;
+        } else if (coran.equalsIgnoreCase("C")){
+            correctIndex = 2;
+        } else if (coran.equalsIgnoreCase("D")){
+            correctIndex = 3;
+        } else if (coran.equalsIgnoreCase("E")){
+            correctIndex = 4;
+        }
     }
 
 
