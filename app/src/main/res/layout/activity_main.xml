@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/astroQA_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Quiz Me"
+        android:textSize="18sp" />
+
+    <!--    <Button
+            android:id="@+id/XML_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/XML_example"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/GET_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/GET_example"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/POST_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/POST_example"
+            android:textSize="18sp" />-->
+
+</LinearLayout>
