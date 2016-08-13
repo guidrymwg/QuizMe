@@ -73,7 +73,7 @@ public class AstroQA extends AppCompatActivity {
     public static  SharedPreferences prefs;
     private SharedPreferences.Editor edit;
 
-    private boolean randomizeOrder = false;
+    private boolean randomizeOrder = true;
 
     // JSON aray to hold questions as JSON objects once read in from data file
     private JSONArray arrayJSON;
