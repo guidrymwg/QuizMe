@@ -16,6 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".AstroQA" android:label="AstroQA"> </activity>
+        <activity android:name=".AnswerScreen" android:label="AnswerScreen"> </activity>
     </application>
 
 </manifest>

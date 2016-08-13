@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="5dip"
+    android:paddingRight="5dip"
+    android:paddingTop="10dp" >
+
+    <TextView
+        android:id="@+id/TextView02"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="3dp"
+        android:text=""
+        android:textColor="@color/questionColor"
+        android:textSize="@dimen/large_text" />
+
+    <TextView
+        android:id="@+id/TextView03"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="2dp"
+        android:paddingTop="7dp"
+        android:text=""
+        android:textColor="@color/answerColor"
+        android:textSize="@dimen/medium_text" />
+
+    <TextView
+        android:id="@+id/TextView04"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5pt"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="0dp"
+        android:text=""
+        android:textColor="@color/ampColor"
+        android:textSize="@dimen/small_text" />
+
+    <TextView
+        android:id="@+id/TextView05"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10pt"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="5dp"
+        android:text=""
+        android:textColor="@color/scoreColor"
+        android:textSize="@dimen/medium_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingLeft="0dp" >
+
+        <Button
+            android:id="@+id/nextQuestion_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nextQuestionLabel"
+            android:textSize="@dimen/button_font_size" />
+
+        <Button
+            android:id="@+id/reset_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/resetLabel"
+            android:textSize="@dimen/button_font_size" />
+    </LinearLayout>
+
+</LinearLayout>

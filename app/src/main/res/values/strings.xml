@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">QuizMe</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="main_title">Web Data Streams II</string>
+    <string name="QA_example">Astro Question (POST)</string>
+    <string name="submitLabel">Submit</string>
+    <string name="nextQuestionLabel">Next Question</string>
+    <string name="resetLabel">Reset Score</string>
+    <string name="noAnswer">You must select an answer before you click the
+		Submit button!</string>
 </resources>
