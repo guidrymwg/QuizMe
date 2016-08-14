@@ -99,7 +99,7 @@ public class AstroQA extends AppCompatActivity {
 
             case 0:
                 bkg = R.drawable.antennae_dark;
-                inputFile = R.raw.questions;
+                inputFile = R.raw.astronomy;
                 break;
 
             case 1:
