@@ -82,7 +82,8 @@ public class AstroQA extends AppCompatActivity {
     //   2 Mathematics
     //   3 Geography
 
-    public static int subjectIndex = 1;
+    public static int subjectIndex = 0;
+    public static int inputFile;      // JSON file holding questions
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,10 +99,12 @@ public class AstroQA extends AppCompatActivity {
 
             case 0:
                 bkg = R.drawable.antennae_dark;
+                inputFile = R.raw.questions;
                 break;
 
             case 1:
                 bkg = R.drawable.lincoln;
+                inputFile = R.raw.history;
                 break;
         }
 
@@ -299,12 +302,12 @@ public class AstroQA extends AppCompatActivity {
     }
 
     /**
-     * Reads the text from res/raw/questions.json and returns it as a string. Adapted
+     * Reads the text from res/raw/ question file and returns it as a string. Adapted
      * from Glass GDK Compass example.
      */
 
     private static String readQuestionsResource(Context context) {
-        InputStream is = context.getResources().openRawResource(R.raw.questions);
+        InputStream is = context.getResources().openRawResource(inputFile);
         StringBuffer buffer = new StringBuffer();
 
         try {

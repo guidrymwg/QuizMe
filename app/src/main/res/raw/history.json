@@ -1,0 +1,38 @@
+{"responseData":
+    {"questions":[
+
+        {
+            "q": "Who was the first President of the United States?",
+            "a": "Jefferson",
+            "b": "Washington",
+            "c": "Lincoln",
+            "d": "Hamilton",
+            "e": "",
+            "coran": "b",
+            "amp": ""
+        },
+
+        {
+            "q": "When was the Declaration of Independence signed?",
+            "a": "1776",
+            "b": "1783",
+            "c": "1802",
+            "d": "1812",
+            "e": "",
+            "coran": "a",
+            "amp": "It was signed on July 4, 1776, in Philadelphia"
+        },
+
+        {
+            "q": "Which president of the United States delivered the Gettysburg Address?",
+            "a": "Hamilton",
+            "b": "Jefferson",
+            "c": "Grant",
+            "d": "Lincoln",
+            "e": "",
+            "coran": "d",
+            "amp": "It is considered one of the most famous speeches in history.  Poor-quality photographs actually exist of Lincoln delivering it."
+        }
+    ]
+    }
+}
