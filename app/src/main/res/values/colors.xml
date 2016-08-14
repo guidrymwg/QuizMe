@@ -1,13 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
+    <!--<color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimaryDark">#512DA8</color>
+    <color name="colorAccent">#FFC107</color>
+    <color name="primaryPrimaryLight">#B2DFDB</color>
 
     <color name="backgroundColor">#ff000000</color>
     <color name="textColor">#ffffffff</color>
-    <color name="questionColor">#ff000000</color>
-    <color name="answerColor">#ff000000</color>
-    <color name="ampColor">#ff000000</color>
-    <color name="scoreColor">#ff000000</color>
+    <color name="questionColor">#ffffffff</color>
+    <color name="answerColor">#ffffffff</color>
+    <color name="ampColor">#ffffffff</color>
+    <color name="scoreColor">#ffffffff</color>
+
+    <!-- Choose one of the following palettes and leave the rest commented out -->
+
+    <!-- Palette 1  Generated at http://www.materialpalette.com  (green/blue) -->
+    <!--<color name="primary">#009688</color>
+    <color name="primary_dark">#00796B</color>
+    <color name="primary_light">#B2DFDB</color>
+    <color name="accent">#448AFF</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="icons">#FFFFFF</color>
+    <color name="divider">#B6B6B6</color>-->
+
+    <!-- Palette 2  Generated at http://www.materialpalette.com (orange/red) -->
+        <!--<color name="primary">#FFC107</color>
+        <color name="primary_dark">#FFA000</color>
+        <color name="primary_light">#FFECB3</color>
+        <color name="accent">#536DFE</color>
+        <color name="primary_text">#212121</color>
+        <color name="secondary_text">#727272</color>
+        <color name="icons">#212121</color>
+        <color name="divider">#B6B6B6</color>-->
+
+    <!-- Palette 3  Generated at http://www.materialpalette.com  (green) -->
+        <!--<color name="primary">#4CAF50</color>
+        <color name="primary_dark">#388E3C</color>
+        <color name="primary_light">#C8E6C9</color>
+        <color name="accent">#FFC107</color>
+        <color name="primary_text">#212121</color>
+        <color name="secondary_text">#727272</color>
+        <color name="icons">#FFFFFF</color>
+        <color name="divider">#B6B6B6</color>-->
+
+    <!-- Palette 4  Generated at http://www.materialpalette.com (green/brown) -->
+        <!--<color name="primary">#CDDC39</color>
+        <color name="primary_dark">#AFB42B</color>
+        <color name="primary_light">#F0F4C3</color>
+        <color name="accent">#009688</color>
+        <color name="primary_text">#212121</color>
+        <color name="secondary_text">#727272</color>
+        <color name="icons">#212121</color>
+        <color name="divider">#B6B6B6</color>-->
+
+    <!-- Palette 5  Generated at http://www.materialpalette.com (blue/purple)-->
+        <!--<color name="primary">#673AB7</color>
+        <color name="primary_dark">#512DA8</color>
+        <color name="primary_light">#D1C4E9</color>
+        <color name="accent">#FFC107</color>
+        <color name="primary_text">#212121</color>
+        <color name="secondary_text">#727272</color>
+        <color name="icons">#FFFFFF</color>
+        <color name="divider">#B6B6B6</color>-->
+
+    <!-- Palette 6  Generated at http://www.materialpalette.com (green) -->
+     <!--<color name="primary">#8BC34A</color>
+     <color name="primary_dark">#689F38</color>
+     <color name="primary_light">#DCEDC8</color>
+     <color name="accent">#CDDC39</color>
+     <color name="primary_text">#212121</color>
+     <color name="secondary_text">#727272</color>
+     <color name="icons">#212121</color>
+     <color name="divider">#B6B6B6</color>-->
+
 </resources>

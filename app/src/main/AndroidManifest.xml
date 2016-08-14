@@ -5,7 +5,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="@string/main_title"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
@@ -15,8 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AstroQA" android:label="AstroQA"> </activity>
-        <activity android:name=".AnswerScreen" android:label="AnswerScreen"> </activity>
+        <activity android:name=".AstroQA" android:label="Question"> </activity>
+        <activity android:name=".AnswerScreen" android:label="Answer"> </activity>
     </application>
 
 </manifest>

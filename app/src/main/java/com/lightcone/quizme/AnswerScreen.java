@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,10 +24,35 @@ public class AnswerScreen extends Activity {
     private int numberWrong;
     private int score;
 
+    public int bkg;  // Holds int identifying background image
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.answerscreen);
+
+        // Choose the background image
+        switch(AstroQA.subjectIndex){
+
+            case 0:
+                bkg = R.drawable.ngc6302_dark;
+                break;
+
+            case 1:
+                bkg = R.drawable.lincoln;
+                break;
+        }
+
+        // Deal with deprecated methods in setting the background image
+
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        LinearLayout layout =(LinearLayout)findViewById(R.id.LinearLayout1);
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            layout.setBackgroundDrawable( getResources().getDrawable(bkg) );
+        } else {
+            layout.setBackground( getResources().getDrawable(bkg) );
+        }
+
         numberRight = AstroQA.numberRight;
         numberWrong= AstroQA.numberWrong;
         score = (int)(100*AstroQA.score);

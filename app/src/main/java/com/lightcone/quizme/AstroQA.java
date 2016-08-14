@@ -78,11 +78,11 @@ public class AstroQA extends AppCompatActivity {
 
     // Subject index for questions:
     //   0 Astronomy
-    //   1 Geography
+    //   1 History
     //   2 Mathematics
-    //   3 History
+    //   3 Geography
 
-    public static int subjectIndex = 0;
+    public static int subjectIndex = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class AstroQA extends AppCompatActivity {
                 break;
 
             case 1:
-                bkg = R.drawable.ngc6302_dark;
+                bkg = R.drawable.lincoln;
                 break;
         }
 
