@@ -12,6 +12,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,13 +71,44 @@ public class AstroQA extends AppCompatActivity {
 
     private boolean randomizeOrder = true;
 
+    public int bkg;  // Holds int identifying background image
+
     // JSON aray to hold questions as JSON objects once read in from data file
     private JSONArray arrayJSON;
+
+    // Subject index for questions:
+    //   0 Astronomy
+    //   1 Geography
+    //   2 Mathematics
+    //   3 History
+
+    public int subjectIndex = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.astroqa);
+
+        // Choose the background image
+        switch(subjectIndex){
+
+            case 0:
+                bkg = R.drawable.antennae_dark;
+                break;
+
+            case 1:
+                bkg = R.drawable.ngc6302_dark;
+                break;
+        }
+
+
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+		RelativeLayout layout =(RelativeLayout)findViewById(R.id.RelativeLayout1);
+		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+			layout.setBackgroundDrawable( getResources().getDrawable(bkg) );
+		} else {
+			layout.setBackground( getResources().getDrawable(bkg) );
+		}
 
         context = getApplicationContext();
 
@@ -349,14 +381,16 @@ public class AstroQA extends AppCompatActivity {
 
         //Log.i(TAG,"numberQuestions="+numberQuestions+" currentQuestion="+qnumber);
 
+        String spacer = "";
+
         // Extract the question and assign data to variables
         try {
             question= capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("q"));
-            answer[0] = arrayJSON.getJSONObject(qnumber).getString("a");
-            answer[1] = arrayJSON.getJSONObject(qnumber).getString("b");
-            answer[2] = arrayJSON.getJSONObject(qnumber).getString("c");
-            answer[3] = arrayJSON.getJSONObject(qnumber).getString("d");
-            answer[4] = arrayJSON.getJSONObject(qnumber).getString("e");
+            answer[0] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("a"));
+            answer[1] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("b"));
+            answer[2] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("c"));
+            answer[3] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("d"));
+            answer[4] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("e"));
             coran = capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("coran"));
             amplification = capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("amp"));
         } catch (JSONException e1) {
