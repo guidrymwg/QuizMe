@@ -67,13 +67,13 @@ public class AstroQA extends AppCompatActivity {
     public static int numberWrong = 0;
     public static int numberScored = 0;
     public static float score = 0;
-    private static int qnumber = -1;
+    public static int qnumber = -1;
 
     // Shared preferences
     public static  SharedPreferences prefs;
     private SharedPreferences.Editor edit;
 
-    private boolean randomizeOrder = true;
+    private boolean randomizeOrder = false;
 
     // JSON aray to hold questions as JSON objects once read in from data file
     private JSONArray arrayJSON;
@@ -205,6 +205,7 @@ public class AstroQA extends AppCompatActivity {
         edit.putInt("numberWrong", numberWrong);
         edit.putInt("numberQuestions", numberQuestions);
         edit.putFloat("score", score);
+        edit.putInt("qnumber",qnumber);
         edit.commit();
 
         // Define an Intent to launch an answer screen
@@ -348,13 +349,14 @@ public class AstroQA extends AppCompatActivity {
             qnumber = randomQuestion(numberQuestions);
         } else {
             if(qnumber < numberQuestions-1){
-                qnumber++;
+                qnumber = qnumber+1;
+                Log.i(TAG,"noRandom: numberQuestions="+numberQuestions+" currentQuestion="+qnumber);
             } else {
                 qnumber = 0;
             }
         }
 
-        Log.i(TAG,"numberQuestions="+numberQuestions+" currentQuestion="+qnumber);
+        //Log.i(TAG,"numberQuestions="+numberQuestions+" currentQuestion="+qnumber);
 
         // Extract the question and assign data to variables
         try {

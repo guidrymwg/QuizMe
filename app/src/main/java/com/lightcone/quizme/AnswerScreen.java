@@ -105,6 +105,7 @@ public class AnswerScreen extends Activity {
         edit.putInt("numberWrong", numberWrong);
         edit.putInt("numberQuestions", numberRight+numberWrong);
         edit.putFloat("score", score);
+        edit.putInt("qnumber",AstroQA.qnumber);
         edit.commit();
 
         String s = "Right: "+numberRight+"   Wrong: "+numberWrong+"   Score: " + score +"%";
