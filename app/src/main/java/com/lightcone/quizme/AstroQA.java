@@ -25,12 +25,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
-import java.util.StringTokenizer;
 
 
-/**
- * Created by guidry on 8/13/16.
- */
 public class AstroQA extends AppCompatActivity {
 
     public static final String TAG = "QUIZME";
@@ -41,7 +37,6 @@ public class AstroQA extends AppCompatActivity {
     protected static String answer[] = new String[5];
     protected static String chapter = "4";
     private TextView questionView;
-    private Bundle postData;
     private RadioButton[] answerButton = new RadioButton[5];
     protected static String coran = null;
     protected static String amplification = null;
@@ -73,7 +68,7 @@ public class AstroQA extends AppCompatActivity {
     public static  SharedPreferences prefs;
     private SharedPreferences.Editor edit;
 
-    private boolean randomizeOrder = false;
+    private boolean randomizeOrder = true;
 
     // JSON aray to hold questions as JSON objects once read in from data file
     private JSONArray arrayJSON;
@@ -249,17 +244,13 @@ public class AstroQA extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s){
-            // Parse the returned string
-            //parseQuizData(s);
+
             // Stop the progress bar
             progressBar.setVisibility(View.GONE);
 
             // Parse the returned string
-           // postParse(s);
 
             parseQuizData(s);
-
-            //postParse();
 
             // Make buttons visible
 			submitButton.setVisibility(View.VISIBLE);
@@ -432,53 +423,7 @@ public class AstroQA extends AppCompatActivity {
         return sub1.toUpperCase(Locale.US)+sub2;
     }
 
-    // To process the string returned
-    private void postParse(String s){
-        Log.i(TAG,"postParse: "+s);
-        StringTokenizer st = new StringTokenizer(s,"\n");
-        String ts;
-        Log.i(TAG,"\nFrom Tokenizer:\n");
-        qnum = st.nextToken();
 
-        qnum = qnum.substring(qnum.indexOf("=")+1).trim();
-        Log.i(TAG,"qnum="+qnum);
-        int iqnum = Integer.parseInt(qnum);
-        question = st.nextToken();
-        question = question.substring(question.indexOf("=")+1).trim();
-        Log.i(TAG, "qnum="+iqnum);
-        Log.i(TAG, "question="+question);
-        for(int i=0; i<5; i++){
-            ts = st.nextToken();
-            answer[i] = answerArray[i]+".  "+ts.substring(ts.indexOf("=")+1).trim();
-            Log.i(TAG, "Answer["+i+"]: "+ answer[i]);
-            answerButton[i].setText(" "+answer[i]);
-        }
-        chapter = st.nextToken();
-        chapter = chapter.substring(chapter.indexOf("=")+1).trim();
-        Log.i(TAG, "chapter="+chapter);
-        coran = st.nextToken();
-        coran = coran.substring(coran.indexOf("=")+1).trim();
-        Log.i(TAG,"coran="+coran);
-        amplification = st.nextToken();
-        amplification = amplification.substring(amplification.indexOf("=")+1).trim();
-        Log.i(TAG,"amplification="+amplification);
-        questionView.append("\n"+question);
-
-        // Assign  an integer index 0-4 to the correct answer that can be compared with
-        // the integer index selectedButton for the answer chosen
-
-        if(coran.equalsIgnoreCase("A")){
-            correctIndex = 0;
-        } else if (coran.equalsIgnoreCase("B")){
-            correctIndex = 1;
-        } else if (coran.equalsIgnoreCase("C")){
-            correctIndex = 2;
-        } else if (coran.equalsIgnoreCase("D")){
-            correctIndex = 3;
-        } else if (coran.equalsIgnoreCase("E")){
-            correctIndex = 4;
-        }
-    }
 
 
 }
