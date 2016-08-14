@@ -39,7 +39,7 @@
                 android:paddingRight="3dp"
                 android:text=""
                 android:textColor="@color/textColor"
-                android:textSize="@dimen/large_text" />
+                android:textSize="@dimen/medium_text" />
 
             <RadioGroup
                 android:id="@+id/radiobuttons"

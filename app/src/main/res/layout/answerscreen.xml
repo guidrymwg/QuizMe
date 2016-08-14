@@ -16,7 +16,7 @@
         android:paddingTop="3dp"
         android:text=""
         android:textColor="@color/questionColor"
-        android:textSize="@dimen/large_text" />
+        android:textSize="@dimen/medium_text" />
 
     <TextView
         android:id="@+id/TextView03"

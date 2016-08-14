@@ -69,7 +69,7 @@ public class AstroQA extends AppCompatActivity {
     public static  SharedPreferences prefs;
     private SharedPreferences.Editor edit;
 
-    private boolean randomizeOrder = true;
+    private boolean randomizeOrder = false;
 
     public int bkg;  // Holds int identifying background image
 
@@ -82,12 +82,16 @@ public class AstroQA extends AppCompatActivity {
     //   2 Mathematics
     //   3 History
 
-    public int subjectIndex = 0;
+    public static int subjectIndex = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.astroqa);
+
+        // Store context for later use
+        context = getApplicationContext();
 
         // Choose the background image
         switch(subjectIndex){
@@ -101,6 +105,7 @@ public class AstroQA extends AppCompatActivity {
                 break;
         }
 
+        // Deal with deprecated methods in setting the background image
 
         final int sdk = android.os.Build.VERSION.SDK_INT;
 		RelativeLayout layout =(RelativeLayout)findViewById(R.id.RelativeLayout1);
@@ -109,8 +114,6 @@ public class AstroQA extends AppCompatActivity {
 		} else {
 			layout.setBackground( getResources().getDrawable(bkg) );
 		}
-
-        context = getApplicationContext();
 
         // Set up a TextView to hold the question
         questionView = (TextView)findViewById(R.id.TextView01);
@@ -191,13 +194,13 @@ public class AstroQA extends AppCompatActivity {
                     break;
             }
 
-            Log.i(TAG,"Button "+selectedButton+" chosen");
+            //Log.i(TAG,"Button "+selectedButton+" chosen");
         }
     };
 
     // Method to process and score answer
     private void processAnswer(int selectedButton){
-        Log.i(TAG,"ProcessAnswer, selected button = "+selectedButton);
+        //Log.i(TAG,"ProcessAnswer, selected button = "+selectedButton);
 
         // If no answer given, warn but do nothing
         if(selectedButton < 0){
@@ -323,7 +326,7 @@ public class AstroQA extends AppCompatActivity {
                 }
             }
         }
-        Log.i(TAG, "string"+buffer.toString());
+        //Log.i(TAG, "string"+buffer.toString());
         return buffer.toString();
     }
 
@@ -363,7 +366,7 @@ public class AstroQA extends AppCompatActivity {
     }
 
     // Method to extract a question from the JSON array of question objects and
-    // display it as cards.  Called by tap on trackpad.
+    // display it.
 
     private void displayQuestion(){
 
@@ -386,11 +389,11 @@ public class AstroQA extends AppCompatActivity {
         // Extract the question and assign data to variables
         try {
             question= capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("q"));
-            answer[0] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("a"));
-            answer[1] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("b"));
-            answer[2] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("c"));
-            answer[3] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("d"));
-            answer[4] = spacer+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("e"));
+            answer[0] = spacer+"A.  "+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("a"));
+            answer[1] = spacer+"B.  "+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("b"));
+            answer[2] = spacer+"C.  "+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("c"));
+            answer[3] = spacer+"D.  "+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("d"));
+            answer[4] = spacer+"E.  "+capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("e"));
             coran = capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("coran"));
             amplification = capFirstLetter(arrayJSON.getJSONObject(qnumber).getString("amp"));
         } catch (JSONException e1) {
@@ -457,7 +460,18 @@ public class AstroQA extends AppCompatActivity {
         return sub1.toUpperCase(Locale.US)+sub2;
     }
 
+    // Method to test randomness of random number method randomQuestion.
+	// The int number is the number of times to determine the random question number.
 
-
+	private void testRandom(int number){
+		int [] choice = new int[numberQuestions];
+		for (int i=0; i<number; i++){
+			int rand = randomQuestion(numberQuestions);
+			choice[rand] ++;
+		}
+		for(int j=0; j<numberQuestions; j++){
+			Log.i(TAG,"j="+j+" number="+choice[j]);
+		}
+	}
 
 }
