@@ -7,7 +7,7 @@
             "b": "Washington",
             "c": "Lincoln",
             "d": "Hamilton",
-            "e": "",
+            "e": "Polk",
             "coran": "b",
             "amp": ""
         },
@@ -18,7 +18,7 @@
             "b": "1783",
             "c": "1802",
             "d": "1812",
-            "e": "",
+            "e": "1845",
             "coran": "a",
             "amp": "It was signed on July 4, 1776, in Philadelphia"
         },
@@ -29,9 +29,20 @@
             "b": "Jefferson",
             "c": "Grant",
             "d": "Lincoln",
-            "e": "",
+            "e": "Johnson",
             "coran": "d",
             "amp": "It is considered one of the most famous speeches in history.  Poor-quality photographs actually exist of Lincoln delivering it."
+        },
+
+        {
+            "q": "Who was the commander of the Union armies in the Civil War?",
+            "a": "Jackson",
+            "b": "Lincoln",
+            "c": "Grant",
+            "d": "Johnson",
+            "e": "Lee",
+            "coran": "c",
+            "amp": ""
         }
     ]
     }
