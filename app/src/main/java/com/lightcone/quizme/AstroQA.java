@@ -112,10 +112,10 @@ public class AstroQA extends AppCompatActivity {
 
         final int sdk = android.os.Build.VERSION.SDK_INT;
 		RelativeLayout layout =(RelativeLayout)findViewById(R.id.RelativeLayout1);
-		if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+		if(sdk < android.os.Build.VERSION_CODES.M) {
 			layout.setBackgroundDrawable( getResources().getDrawable(bkg) );
 		} else {
-			layout.setBackground( getResources().getDrawable(bkg) );
+			layout.setBackground( getResources().getDrawable(bkg, null) );
 		}
 
         // Set up a TextView to hold the question

@@ -47,10 +47,10 @@ public class AnswerScreen extends Activity {
 
         final int sdk = android.os.Build.VERSION.SDK_INT;
         LinearLayout layout =(LinearLayout)findViewById(R.id.LinearLayout1);
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+        if(sdk < android.os.Build.VERSION_CODES.M) {
             layout.setBackgroundDrawable( getResources().getDrawable(bkg) );
         } else {
-            layout.setBackground( getResources().getDrawable(bkg) );
+            layout.setBackground( getResources().getDrawable(bkg, null) );
         }
 
         numberRight = AstroQA.numberRight;
